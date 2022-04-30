@@ -179,7 +179,6 @@ Public Class DatEditForm
             FristRun = True
 
         End If
-        LoadData()
         Me.ResumeLayout()
         RefreshForm()
         INITIAL_SETUP = False
@@ -741,6 +740,7 @@ Public Class DatEditForm
         Main.저장()
     End Sub
     Private Sub PaletDraw()
+        ListView1.SuspendLayout()
         ListView1.BeginUpdate()
         ListView1.Items.Clear()
         Dim flingyNum, SpriteNum, ImageNum As Integer
@@ -809,6 +809,7 @@ Public Class DatEditForm
             ListView1.Items(itemindex).Tag = index
         Next
         ListView1.EndUpdate()
+        ListView1.ResumeLayout()
         'ListView1.Clear()
         'ListView1.Items.Add(New ListView.ListViewItemCollection())
     End Sub
