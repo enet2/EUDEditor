@@ -160,6 +160,7 @@ Public Class DatEditForm
             'loadthread = New Thread(AddressOf showloadform)
             'loadthread.Start()
 
+            ICONILIST.Images.AddRange(CMDIconBitmapList.ToArray)
 
             NumericUpDown1.Maximum = Integer.MaxValue \ 256
             NumericUpDown1.Minimum = Integer.MinValue \ 256
