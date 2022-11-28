@@ -247,36 +247,36 @@ Namespace eudplib
                         End If
                     End If
                     If dataDumperuse = True Then
-                        If dataDumper_grpwire_f <> 0 Then
-                            returntext.Append(dataDumper_grpwire.Replace(":", "\:") & " : 0x" & ReadOffset("grpwire.grp"))
-                            Select Case dataDumper_grpwire_f
-                                Case 2
-                                    returntext.Append(", copy")
-                                Case 3
-                                    returntext.Append(", unpatchable")
-                            End Select
-                            returntext.AppendLine()
-                        End If
-                        If dataDumper_tranwire_f <> 0 Then
-                            returntext.Append(dataDumper_tranwire.Replace(":", "\:") & " : 0x" & ReadOffset("tranwire.grp"))
-                            Select Case dataDumper_tranwire_f
-                                Case 2
-                                    returntext.Append(", copy")
-                                Case 3
-                                    returntext.Append(", unpatchable")
-                            End Select
-                            returntext.AppendLine()
-                        End If
-                        If dataDumper_wirefram_f <> 0 Then
-                            returntext.Append(dataDumper_wirefram.Replace(":", "\:") & " : 0x" & ReadOffset("wirefram.grp"))
-                            Select Case dataDumper_wirefram_f
-                                Case 2
-                                    returntext.Append(", copy")
-                                Case 3
-                                    returntext.Append(", unpatchable")
-                            End Select
-                            returntext.AppendLine()
-                        End If
+                        'If dataDumper_grpwire_f <> 0 Then
+                        '    returntext.Append(dataDumper_grpwire.Replace(":", "\:") & " : 0x" & ReadOffset("grpwire.grp"))
+                        '    Select Case dataDumper_grpwire_f
+                        '        Case 2
+                        '            returntext.Append(", copy")
+                        '        Case 3
+                        '            returntext.Append(", unpatchable")
+                        '    End Select
+                        '    returntext.AppendLine()
+                        'End If
+                        'If dataDumper_tranwire_f <> 0 Then
+                        '    returntext.Append(dataDumper_tranwire.Replace(":", "\:") & " : 0x" & ReadOffset("tranwire.grp"))
+                        '    Select Case dataDumper_tranwire_f
+                        '        Case 2
+                        '            returntext.Append(", copy")
+                        '        Case 3
+                        '            returntext.Append(", unpatchable")
+                        '    End Select
+                        '    returntext.AppendLine()
+                        'End If
+                        'If dataDumper_wirefram_f <> 0 Then
+                        '    returntext.Append(dataDumper_wirefram.Replace(":", "\:") & " : 0x" & ReadOffset("wirefram.grp"))
+                        '    Select Case dataDumper_wirefram_f
+                        '        Case 2
+                        '            returntext.Append(", copy")
+                        '        Case 3
+                        '            returntext.Append(", unpatchable")
+                        '    End Select
+                        '    returntext.AppendLine()
+                        'End If
                         If dataDumper_cmdicons_f <> 0 Then
                             returntext.Append(dataDumper_cmdicons.Replace(":", "\:") & " : 0x" & ReadOffset("cmdicons.grp"))
                             Select Case dataDumper_cmdicons_f
