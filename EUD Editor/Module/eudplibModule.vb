@@ -514,12 +514,11 @@ Namespace eudplib
                         End If
                     Next
                 End If
-                returntext.AppendLine("def onPluginStart():")
-            End If
-                'FileManager
-                returntext.AppendLine("def onPluginStart():")
+            End If 'FileManager
+                
+            returntext.AppendLine("def onPluginStart():")
 
-                If ProjectSet.UsedSetting(ProjectSet.Settingtype.BinEditor) = True Then
+            If ProjectSet.UsedSetting(ProjectSet.Settingtype.BinEditor) = True Then
                 If ProjectSet.PlayerRace = 255 Then
                     MsgBox("플레이어의 종족이 올바르지 않습니다." & vbCrLf & "BinEidt 옵션이 해제됩니다." & vbCrLf & "(이는 심각한 에러는 아니지만 콘솔 변경이 적용되지 않습니다.)", MsgBoxStyle.Critical, ProgramSet.ErrorFormMessage)
                     ProjectSet.UsedSetting(ProjectSet.Settingtype.BinEditor) = False
