@@ -548,7 +548,7 @@ Namespace ProjectSet
 
 
                 Dim STRpara() As Byte
-                Dim entrysize as Integer
+                Dim entrysize As Integer
                 entrysize = -1
                 Try
                     mem.Position = SearchCHK("STRx", buffer)
