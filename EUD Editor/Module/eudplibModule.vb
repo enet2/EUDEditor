@@ -50,161 +50,9 @@ Namespace eudplib
                 returntext.AppendLine("debug: 1")
             End If
 
-
             returntext.AppendLine()
             returntext.AppendLine("[EUDEditor.py]")
             returntext.AppendLine()
-
-
-            If ProjectSet.UsedSetting(ProjectSet.Settingtype.Struct) = True Then
-                If ProjectSet.LoadFromCHK = False Then
-                    MsgBox("CHK데이터 읽어오기가 활성화 되어 있지 않아 TriggerEditor옵션이 해제됩니다.", MsgBoxStyle.Critical, ProgramSet.ErrorFormMessage)
-                    ProjectSet.UsedSetting(ProjectSet.Settingtype.Struct) = False
-                    Main.buttonResetting()
-                Else
-                    returntext.AppendLine("[TriggerEditor.eps]")
-                    returntext.AppendLine()
-                End If
-            End If
-
-            '플러그인 비활성화시 DataDumper사용 원천차단하기.
-            'If ProjectSet.UsedSetting(ProjectSet.Settingtype.Plugin) = False Then
-            '    If (ProjectSet.UsedSetting(ProjectSet.Settingtype.BinEditor) Or
-            '        ProjectSet.UsedSetting(ProjectSet.Settingtype.FireGraft) Or
-            '        ProjectSet.UsedSetting(ProjectSet.Settingtype.TileSet)) Then
-
-            '    End If
-
-            '    Dim flag As Boolean = False
-            '    returntext.AppendLine("[dataDumper]")
-            '    If ProjectSet.UsedSetting(ProjectSet.Settingtype.FireGraft) = True Then
-            '        flag = True
-            '        RepDataToFile()
-            '        returntext.Append(My.Application.Info.DirectoryPath.Replace(":", "\:") & "\Data\temp\" & "RequireData : 0x" & ReadOffset("Vanilla"))
-            '        returntext.Append(", copy")
-            '        returntext.AppendLine()
-            '    End If
-
-            '    If ProjectSet.UsedSetting(ProjectSet.Settingtype.TileSet) = True Then
-            '        flag = True
-            '        returntext.Append(My.Application.Info.DirectoryPath.Replace(":", "\:") & "\Data\temp\" & "MTXM : 0x" & ReadOffset("mtxm"))
-            '        returntext.Append(", copy")
-            '        returntext.AppendLine()
-            '        returntext.Append(My.Application.Info.DirectoryPath.Replace(":", "\:") & "\Data\temp\" & "FMTXM : 0x" & ReadOffset("fmtxm"))
-            '        returntext.Append(", copy")
-            '        returntext.AppendLine()
-            '        If ProjectTileUseFile = True And (CheckFileExist(ProjectTileSetFileName) = False) Then
-            '            returntext.Append(My.Application.Info.DirectoryPath.Replace(":", "\:") & "\Data\temp\" & "vr4 : 0x" & ReadOffset("vr4"))
-            '            returntext.Append(", copy")
-            '            returntext.AppendLine()
-            '        End If
-            '    End If
-
-            '    If ProjectSet.UsedSetting(ProjectSet.Settingtype.BinEditor) = True Then
-            '        If ProjectSet.PlayerRace <> 255 Then
-            '            flag = True
-            '            returntext.Append(My.Application.Info.DirectoryPath.Replace(":", "\:") & "\Data\temp\" & "STransDat : 0x" & Hex(("&H" & ReadOffset("Vanilla")) + 4))
-            '            returntext.Append(", copy")
-            '            returntext.AppendLine()
-            '        End If
-            '    End If
-
-            '    If flag = False Then
-            '        returntext.Replace("[dataDumper]", "")
-            '    End If
-            'End If
-
-            If ProjectSet.UsedSetting(ProjectSet.Settingtype.Plugin) = True Then
-                If nqcuse = True Then
-                    returntext.AppendLine("[MSQC]")
-                    Try
-                        Dim num As Integer = nqcunit
-                        If num <> 58 Then
-                            returntext.AppendLine("QCUnitID : " & nqcunit)
-
-                        End If
-                    Catch ex As Exception
-                    End Try
-
-                    Dim temp1string() As String = nqccommands.Split({"\"}, StringSplitOptions.RemoveEmptyEntries)
-
-                    Dim _values As New List(Of String)
-                    For i = 0 To CODE(0).Count - 1
-                        If DatEditDATA(DTYPE.units).ReadValue("Unit Map String", i) = 0 Then
-                            _values.Add(CODE(0)(i))
-                        Else
-                            Try
-                                _values.Add(ProjectSet.CHKSTRING(-1 + ProjectSet.CHKUNITNAME(i)))
-                            Catch ex As Exception
-                                _values.Add(CODE(0)(i))
-                            End Try
-
-                        End If
-                    Next
-
-
-                    For i = 0 To temp1string.Count - 1
-                        Dim temp2string() As String = temp1string(i).Split("#")
-                        Try
-                            Dim temp As UInteger = temp2string(1).Trim
-                            returntext.AppendLine(temp2string(0).Trim & " : " & _values(temp2string(1).Trim) & ", " & temp2string(2).Trim)
-                        Catch ex As Exception
-                            returntext.AppendLine(temp2string(0).Trim & " : " & temp2string(1).Trim)
-                        End Try
-                    Next
-                    If ProjectSet.SCDBUse Then
-                        returntext.AppendLine("val, 0x58F524 ; Memory(0x58F520, Exactly, 1) :" & 437 + (SCDBDataSize + 3) \ 12)
-                        returntext.AppendLine("val, 0x58F528 ; Memory(0x58F520, Exactly, 1) :" & 438 + (SCDBDataSize + 3) \ 12)
-                        returntext.AppendLine("val, 0x58F52C ; Memory(0x58F520, Exactly, 1) :" & 439 + (SCDBDataSize + 3) \ 12)
-                        returntext.AppendLine("val, 0x58F530 ; Memory(0x58F520, Exactly, 1) :" & 440 + (SCDBDataSize + 3) \ 12)
-
-                        For i = 0 To SCDBDataSize - 1
-                            returntext.AppendLine("val, 0x" & Hex(&H58F534 + i * 4) & " ; Memory(0x58F520, Exactly, 1) :" & 441 + i + (SCDBDataSize + 3) \ 12)
-                        Next
-                    End If
-
-
-                    If nqclocs.Split(",").Count = 1 Then
-                        Dim locs() As String = nqclocs.Split(",")
-                        Dim _flag As Boolean = True
-                        If Val(locs(0)) = 0 Then
-                            _flag = False
-                        End If
-                        If _flag = True Then
-                            _values.Clear()
-                            _values.Add("None")
-                            For i = 0 To 254
-                                If ProjectSet.CHKLOCATIONNAME(i) <> 0 Then
-                                    _values.Add(ProjectSet.CHKSTRING(ProjectSet.CHKLOCATIONNAME(i) - 1))
-                                Else
-                                    _values.Add("Location " & i)
-                                End If
-                            Next
-
-                            returntext.AppendLine("마우스 : " & _values(Val(locs(0))))
-                        End If
-                    End If
-                End If
-            End If
-
-                'Public dataDumper_grpwire As String
-                'Public dataDumper_tranwire As String
-                'Public dataDumper_wirefram As String
-                'Public dataDumper_cmdicons As String
-                'Public dataDumper_stat_txt As String
-                'Public dataDumper_AIscript As String
-                'Public dataDumper_iscript As String
-
-                'Public dataDumper_grpwire_f As Byte
-                'Public dataDumper_tranwire_f As Byte
-                'Public dataDumper_wirefram_f As Byte
-                'Public dataDumper_cmdicons_f As Byte
-                'Public dataDumper_stat_txt_f As Byte
-                'Public dataDumper_AIscript_f As Byte
-                'Public dataDumper_iscript_f As Byte
-
-                'DataDumper옵션 사용체크해야지 자동으로 삽입되는 형식.
-
 
             returntext.AppendLine("[dataDumper]")
             If ProjectSet.UsedSetting(ProjectSet.Settingtype.filemanager) = True And stattextdic.Count <> 0 Then
@@ -310,7 +158,6 @@ Namespace eudplib
                     End If
                 End If
 
-
                 If grpinjectoruse = True Then
                     returntext.AppendLine("[grpinjector]")
                     If grpinjector_arrow <> "" Then
@@ -355,7 +202,7 @@ Namespace eudplib
                     returntext.AppendLine("[keepSTR]" & vbCrLf)
                 End If
                 If eudTurbo = True Then
-                    returntext.AppendLine("[eudTurbo]" & vbCrLf)
+                    returntext.AppendLine("[EUDTurbo]" & vbCrLf)
                 End If
 
 
@@ -367,11 +214,93 @@ Namespace eudplib
                 returntext.AppendLine(textraedssetting)
             End If
 
+            If ProjectSet.UsedSetting(ProjectSet.Settingtype.Struct) = True Then
+                If ProjectSet.LoadFromCHK = False Then
+                    MsgBox("CHK데이터 읽어오기가 활성화 되어 있지 않아 TriggerEditor옵션이 해제됩니다.", MsgBoxStyle.Critical, ProgramSet.ErrorFormMessage)
+                    ProjectSet.UsedSetting(ProjectSet.Settingtype.Struct) = False
+                    Main.buttonResetting()
+                Else
+                    returntext.AppendLine("[TriggerEditor.eps]")
+                    returntext.AppendLine()
+                End If
+            End If
+
+            If ProjectSet.UsedSetting(ProjectSet.Settingtype.Plugin) = True Then
+                If nqcuse = True Then
+                    returntext.AppendLine("[MSQC]")
+                    Try
+                        Dim num As Integer = nqcunit
+                        If num <> 58 Then
+                            returntext.AppendLine("QCUnitID : " & nqcunit)
+
+                        End If
+                    Catch ex As Exception
+                    End Try
+
+                    Dim temp1string() As String = nqccommands.Split({"\"}, StringSplitOptions.RemoveEmptyEntries)
+
+                    Dim _values As New List(Of String)
+                    For i = 0 To CODE(0).Count - 1
+                        If DatEditDATA(DTYPE.units).ReadValue("Unit Map String", i) = 0 Then
+                            _values.Add(CODE(0)(i))
+                        Else
+                            Try
+                                _values.Add(ProjectSet.CHKSTRING(-1 + ProjectSet.CHKUNITNAME(i)))
+                            Catch ex As Exception
+                                _values.Add(CODE(0)(i))
+                            End Try
+
+                        End If
+                    Next
+
+
+                    For i = 0 To temp1string.Count - 1
+                        Dim temp2string() As String = temp1string(i).Split("#")
+                        Try
+                            Dim temp As UInteger = temp2string(1).Trim
+                            returntext.AppendLine(temp2string(0).Trim & " : " & _values(temp2string(1).Trim) & ", " & temp2string(2).Trim)
+                        Catch ex As Exception
+                            returntext.AppendLine(temp2string(0).Trim & " : " & temp2string(1).Trim)
+                        End Try
+                    Next
+                    If ProjectSet.SCDBUse Then
+                        returntext.AppendLine("val, 0x58F524 ; Memory(0x58F520, Exactly, 1) :" & 437 + (SCDBDataSize + 3) \ 12)
+                        returntext.AppendLine("val, 0x58F528 ; Memory(0x58F520, Exactly, 1) :" & 438 + (SCDBDataSize + 3) \ 12)
+                        returntext.AppendLine("val, 0x58F52C ; Memory(0x58F520, Exactly, 1) :" & 439 + (SCDBDataSize + 3) \ 12)
+                        returntext.AppendLine("val, 0x58F530 ; Memory(0x58F520, Exactly, 1) :" & 440 + (SCDBDataSize + 3) \ 12)
+
+                        For i = 0 To SCDBDataSize - 1
+                            returntext.AppendLine("val, 0x" & Hex(&H58F534 + i * 4) & " ; Memory(0x58F520, Exactly, 1) :" & 441 + i + (SCDBDataSize + 3) \ 12)
+                        Next
+                    End If
+
+
+                    If nqclocs.Split(",").Count = 1 Then
+                        Dim locs() As String = nqclocs.Split(",")
+                        Dim _flag As Boolean = True
+                        If Val(locs(0)) = 0 Then
+                            _flag = False
+                        End If
+                        If _flag = True Then
+                            _values.Clear()
+                            _values.Add("None")
+                            For i = 0 To 254
+                                If ProjectSet.CHKLOCATIONNAME(i) <> 0 Then
+                                    _values.Add(ProjectSet.CHKSTRING(ProjectSet.CHKLOCATIONNAME(i) - 1))
+                                Else
+                                    _values.Add("Location " & i)
+                                End If
+                            Next
+
+                            returntext.AppendLine("마우스 : " & _values(Val(locs(0))))
+                        End If
+                    End If
+                End If
+            End If
 
             If ProjectSet.EUDEditorDebug = True Then
                 returntext.AppendLine("[EUDEditorDebug.py]" & vbCrLf)
             End If
-
 
             Return returntext.ToString
         End Function
