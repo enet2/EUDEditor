@@ -483,7 +483,7 @@
         strbulider.AppendLine("                }")
         strbulider.AppendLine("            }")
         strbulider.AppendLine("        };")
-        strbulider.AppendLine("        for(var j, j4, j4000 = 0 ; j4 < 228 / 4 ; SetVariables(list(j, j4, j4000), list(4, 1, 4000), list(Add, Add, Add))) {")
+        strbulider.AppendLine("        for(var j, j4, j4000 = 0, 0, 0 ; j4 < 228 / 4 ; SetVariables(list(j, j4, j4000), list(4, 1, 4000), list(Add, Add, Add))) {")
         strbulider.AppendLine("            const epd = EPD(0x6637A0) + j4;")
         strbulider.AppendLine("            foreach(n : py_range(4)) {")
         strbulider.AppendLine("                if (MemoryXEPD(epd, AtLeast, 1, 8 << (n * 8))) {")
